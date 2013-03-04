@@ -10,8 +10,8 @@ group :development, :test do
   gem "bundler", "~> 1.0"
   gem "rspec", "~> 2.6"
   gem "jeweler", "~> 1.6"
-  gem "thin", "~> 1.5"
-  gem "unicorn", "~> 4.5"
+  gem "thin", "~> 1.5", :platform => :ruby
+  gem "unicorn", "~> 4.5", :platform => :ruby
   gem "puma", "~> 1.6"
   gem "em-http-request", "~> 1.0"
 end

@@ -5,14 +5,15 @@ require 'heroku/forward/backends/puma'
 
 describe Heroku::Forward::Proxy::Server do
 
-  [
-    Heroku::Forward::Backends::Thin,
-    Heroku::Forward::Backends::Unicorn,
-    Heroku::Forward::Backends::Puma
-  ].each do |backend_type|
+  backends = [Heroku::Forward::Backends::Puma]
 
+  unless RUBY_PLATFORM == "java"
+    backends << Heroku::Forward::Backends::Thin
+    backends << Heroku::Forward::Backends::Unicorn
+  end
+
+  backends.each do |backend_type|
     context "with #{backend_type.name} backend" do
-
       let(:backend) do
         backend_type.new(:application => 'spec/support/app.ru')
       end
@@ -22,7 +23,6 @@ describe Heroku::Forward::Proxy::Server do
       end
 
       context "spawned backend" do
-
         before :each do
           server.logger = Logger.new(STDOUT)
         end
@@ -44,9 +44,6 @@ describe Heroku::Forward::Proxy::Server do
           end
         end
       end
-
     end
   end
-
 end
-
